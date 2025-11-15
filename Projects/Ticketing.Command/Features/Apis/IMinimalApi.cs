@@ -1,4 +1,4 @@
-namespace Ticketing.Command.Feature.Apis;
+namespace Ticketing.Command.Features.Apis;
 
 public interface IMinimalApi
 {

@@ -4,7 +4,7 @@ using Ticketing.Command.Domain.Common;
 
 namespace Ticketing.Command.Domain.Abstracts;
 
-public interface IMongoRepository<TDocument>
+public interface IMongoRepository<TDocument> 
 : ISession where TDocument : IDocument
 {
     IQueryable<TDocument> AsQueryable();

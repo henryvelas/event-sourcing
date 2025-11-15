@@ -1,5 +1,4 @@
 namespace Common.Core.Events;
-
 public class TicketCreatedEvent : BaseEvent
 {
     public TicketCreatedEvent() : base(nameof(TicketCreatedEvent))

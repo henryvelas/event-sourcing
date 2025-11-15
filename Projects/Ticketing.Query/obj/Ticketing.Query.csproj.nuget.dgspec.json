@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\event-sourcing\\Common\\Common.Core\\Common.Core.csproj",
         "projectName": "Common.Core",
         "projectPath": "C:\\event-sourcing\\Common\\Common.Core\\Common.Core.csproj",
-        "packagesPath": "C:\\Users\\HENRY-LAPTOP\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\javix\\.nuget\\packages\\",
         "outputPath": "C:\\event-sourcing\\Common\\Common.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\HENRY-LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\javix\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -51,7 +51,7 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
-            "Confluent.kafka": {
+            "Confluent.Kafka": {
               "target": "Package",
               "version": "[2.5.3, )"
             },
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -94,14 +94,14 @@
         "projectUniqueName": "C:\\event-sourcing\\Projects\\Ticketing.Query\\Ticketing.Query.csproj",
         "projectName": "Ticketing.Query",
         "projectPath": "C:\\event-sourcing\\Projects\\Ticketing.Query\\Ticketing.Query.csproj",
-        "packagesPath": "C:\\Users\\HENRY-LAPTOP\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\javix\\.nuget\\packages\\",
         "outputPath": "C:\\event-sourcing\\Projects\\Ticketing.Query\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\HENRY-LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\javix\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -161,7 +161,7 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[9.0.2, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -205,7 +205,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -6,5 +6,5 @@ public enum TicketTypeEnum
     WarningError = 2,
     NotFoundDeviceError = 3,
     InternalDeviceError = 4,
-    ManagePersonError   = 5,
+    ManagePersonError = 5
 }

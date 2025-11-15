@@ -1,27 +1,32 @@
 using System.Linq.Expressions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Ticketing.Command.Aplication.Models;
+using Ticketing.Command.Application.Models;
 using Ticketing.Command.Domain.Abstracts;
 using Ticketing.Command.Domain.Common;
 
 namespace Ticketing.Command.Infrastructure.Repositories;
 
-
-public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDocument : IDocument
+public class MongoRepository<TDocument>
+: IMongoRepository<TDocument> where TDocument : IDocument
 {
-
     private readonly IMongoCollection<TDocument> _collection;
 
-    public MongoRepository(IMongoClient mongoClient, IOptions<MongoSettings> options)
+    public MongoRepository(
+        IMongoClient mongoClient,
+        IOptions<MongoSettings> options
+    )
     {
-        _collection = mongoClient.GetDatabase(options.Value.DataBase)
-        .GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
+        _collection = mongoClient
+            .GetDatabase(options.Value.Database)
+            .GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
     }
 
     private protected string GetCollectionName(Type documentType)
     {
-        var name = documentType.GetCustomAttributes(typeof(BsonCollectionAttribute), true).FirstOrDefault();
+        var name = documentType
+        .GetCustomAttributes(typeof(BsonCollectionAttribute), true)
+        .FirstOrDefault();
 
         if (name is not null)
         {
@@ -34,43 +39,63 @@ public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDoc
 
     public IQueryable<TDocument> AsQueryable()
     {
-        return _collection.AsQueryable();
+       return _collection.AsQueryable();
     }
 
-    public async Task<IClientSessionHandle> BeginSessionAsync(CancellationToken cancellationToken)
+    public async Task<IClientSessionHandle> BeginSessionAsync(
+        CancellationToken cancellationToken
+    )
     {
-        var option = new ClientSessionOptions();
-        option.DefaultTransactionOptions = new TransactionOptions();
-        return await _collection.Database.Client.StartSessionAsync(option, cancellationToken);
+       var option = new ClientSessionOptions();
+       option.DefaultTransactionOptions = new TransactionOptions();
+       return await _collection
+                    .Database
+                    .Client
+                    .StartSessionAsync(option, cancellationToken);
     }
 
     public void BeginTransaction(IClientSessionHandle clientSessionHandle)
-    {
-        clientSessionHandle.StartTransaction();
-    }
+     => clientSessionHandle.StartTransaction();
+   
 
-    public Task CommitTransactionAsync(IClientSessionHandle clientSessionHandle
-    , CancellationToken cancellationToken) => clientSessionHandle.CommitTransactionAsync(cancellationToken);
+    public Task CommitTransactionAsync(
+        IClientSessionHandle clientSessionHandle
+        , CancellationToken cancellationToken
+    ) => clientSessionHandle.CommitTransactionAsync(cancellationToken);
     
+
     public void DisposeSession(IClientSessionHandle clientSessionHandle)
+    => clientSessionHandle.Dispose();
+
+    public async Task InsertOneAsync(
+        TDocument document, 
+        IClientSessionHandle clientSessionHandle, 
+        CancellationToken cancellationToken
+    )
     {
-        clientSessionHandle.Dispose();
+       await _collection.InsertOneAsync(
+            clientSessionHandle, 
+            document, 
+            null, 
+            cancellationToken
+        );
     }
 
-    public async Task InsertOneAsync(TDocument document, IClientSessionHandle clientSessionHandle, CancellationToken cancellationToken)
+    public Task RollbackTransactionAsync(
+        IClientSessionHandle clientSessionHandle,
+        CancellationToken cancelationToken
+    ) => clientSessionHandle.AbortTransactionAsync();
+
+    public async Task<IEnumerable<TDocument>> FilterByAsync(
+        Expression<Func<TDocument, bool>> filterExpression, 
+        CancellationToken cancellationToken
+    )
     {
-        await _collection.InsertOneAsync(clientSessionHandle,document,null,cancellationToken);
-    }
+       var result = await _collection
+       .FindAsync(filterExpression, null, cancellationToken);
 
-    public Task RollbackTransactionAsync(IClientSessionHandle clientSessionHandle
-    , CancellationToken cancelationToken) => clientSessionHandle.AbortTransactionAsync();
+       var resultList = await result.ToListAsync();
 
-    public async Task<IEnumerable<TDocument>> FilterByAsync(Expression<Func<TDocument, bool>> filterExpression, CancellationToken cancellationToken)
-    {
-        var result = await _collection.FindAsync(filterExpression, null, cancellationToken);
-
-        var resultList = await result.ToListAsync();
-        
-        return resultList.Any() ? resultList : Enumerable.Empty<TDocument>();
+       return resultList.Any() ? resultList : Enumerable.Empty<TDocument>();
     }
 }

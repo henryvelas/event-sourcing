@@ -1,8 +1,7 @@
-using Common.Core.Events;
-
-namespace Common.Core.Producer;
+namespace Common.Core.Events;
 
 public interface IEventProducer
 {
+
     Task ProduceAsync(string topic, BaseEvent @event);
 }

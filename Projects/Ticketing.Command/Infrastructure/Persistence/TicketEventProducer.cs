@@ -1,9 +1,8 @@
 using Common.Core.Events;
-using Common.Core.Producer;
 using Confluent.Kafka;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Ticketing.Command.Aplication.Models;
+using Ticketing.Command.Application.Models;
 
 namespace Ticketing.Command.Infrastructure.Persistence;
 
@@ -18,10 +17,10 @@ public class TicketEventProducer : IEventProducer
 
     public async Task ProduceAsync(string topic, BaseEvent @event)
     {
-        var config = new ProducerConfig
-        {
-            BootstrapServers = $"{_kafkaSettings.Hostname}:{_kafkaSettings.Port}",
-        };
+       var config = new ProducerConfig
+       {
+            BootstrapServers = $"{_kafkaSettings.Hostname}:{_kafkaSettings.Port}"
+       };
 
         using var producer = new ProducerBuilder<string, string>(config)
         .SetKeySerializer(Serializers.Utf8)
@@ -34,12 +33,15 @@ public class TicketEventProducer : IEventProducer
             Value = JsonConvert.SerializeObject(@event)
         };
 
-        var deliveryStatus = await producer.ProduceAsync(topic, eventMessage);
-
-        if (deliveryStatus.Status == PersistenceStatus.NotPersisted)
+        var deliveryStatus = await producer.ProduceAsync(topic,eventMessage );
+        
+        if(deliveryStatus.Status == PersistenceStatus.NotPersisted)
         {
-            throw new Exception(@$"no se pudo enviar el mensaje {@event.GetType().Name} 
-            hacia el topic - {topic}, por la siguiente razon: {deliveryStatus.Message}");
+            throw new Exception(@$"
+            No se pudo enviar el mensaje {@event.GetType().Name} 
+            hacia el topic - {topic}, 
+            por la siguiente razon: {deliveryStatus.Message}");
         }
+       
     }
 }

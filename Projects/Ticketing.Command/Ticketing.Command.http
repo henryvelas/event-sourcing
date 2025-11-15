@@ -1,16 +1,28 @@
 @Ticketing.Command_HostAddress = http://localhost:5001
 
-GET {{ Ticketing.Command_HostAddress}}/weatherforecast/
+GET {{ Ticketing.Command_HostAddress }}/weatherforecast/
 Accept: application/json
 
 ###
 
-POST {{ Ticketing.Command_HostAddress}}/api/ticket/
+POST {{ Ticketing.Command_HostAddress }}/api/ticket
 Accept: application/json
 Content-Type: application/json
 
 {
-    "username": "henry_jose@gmail.com",
+    "username": "solo.sikoa@gmail.com",
     "typeError": 2,
-    "detailError": "el servidor smtp esta off"
+    "detailError": "La architecture funciona perfecta!"
+}
+
+###
+
+PUT {{ Ticketing.Command_HostAddress }}/api/ticket/01958981-d0e0-76d7-b9c0-8156938f8fde
+Accept: application/json
+Content-Type: application/json
+
+{
+    "ticketType": 2,
+    "description": "Esta es una actualizacion, la ultima",
+    "username": "juan.esteban@gmail.com"
 }
